@@ -1,0 +1,15 @@
+{
+  "name": "Lumina",
+  "short_name": "Lumina",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1d3a8a",
+  "theme_color": "#1d3a8a",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
