@@ -83,6 +83,24 @@ const chapitres=[
    {q:'Que faut-il avoir avant d\'utiliser Thalès ?',o:['Un triangle rectangle','Deux droites parallèles','Deux côtés égaux'],r:1,e:'Thalès s\'utilise quand deux droites sont parallèles.'},
    {q:'AM = 3, AB = 6, AN = 4, AC = 8. (MN) et (BC) sont-elles parallèles ?',o:['Oui','Non'],r:0,e:'3/6 = 1/2 et 4/8 = 1/2. Les rapports sont égaux, donc d\'après la réciproque, elles sont parallèles.'}
   ]
+ },
+ {
+  t:'Trigonométrie',
+  cours:`<p><b>Situation :</b> triangle ABC rectangle en A, et on regarde l'angle B.</p>
+  <p><b>Les trois côtés :</b> l'hypoténuse est BC. Le côté opposé à B est AC. Le côté adjacent à B est AB.</p>
+  <p><b>SOH CAH TOA :</b></p>
+  <p><b>sin B = opposé / hypoténuse = AC/BC</b></p>
+  <p><b>cos B = adjacent / hypoténuse = AB/BC</b></p>
+  <p><b>tan B = opposé / adjacent = AC/AB</b></p>
+  <p><b>Exemple :</b> BC = 10 et B = 30°. AC = BC × sin 30° = 10 × 0,5 = 5.</p>
+  <p><b>Erreur fréquente :</b> mélanger « opposé » et « adjacent ». Ils changent quand on change d'angle.</p>`,
+  quiz:[
+   {q:'ABC rectangle en A. sin B est égal à :',o:['AC/BC','AB/BC','AC/AB'],r:0,e:'sin = opposé / hypoténuse. Pour l\'angle B, l\'opposé est AC et l\'hypoténuse est BC.'},
+   {q:'ABC rectangle en A. cos B est égal à :',o:['AC/BC','AB/BC','AB/AC'],r:1,e:'cos = adjacent / hypoténuse, soit AB/BC.'},
+   {q:'ABC rectangle en A, AB = 4 et AC = 4. Combien vaut tan B ?',o:['0','1','4'],r:1,e:'tan B = AC/AB = 4/4 = 1.'},
+   {q:'ABC rectangle en A, BC = 10 et B = 30°. Combien mesure AC ? (sin 30° = 0,5)',o:['5','20','10'],r:0,e:'AC = BC × sin 30° = 10 × 0,5 = 5.'},
+   {q:'Que signifie le « T » dans SOH CAH TOA ?',o:['Triangle','Tangente','Théorème'],r:1,e:'T veut dire tangente : TOA = Tangente = Opposé / Adjacent.'}
+  ]
  }
 ];
 
