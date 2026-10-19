@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumina</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6fb;color:#1c2333}
+header{background:#1d3a8a;color:#fff;padding:18px 16px;text-align:center}
+header h1{margin:0;font-size:26px}
+header p{margin:4px 0 0;font-size:14px;opacity:.85}
+main{padding:16px;max-width:600px;margin:auto}
+h2{font-size:20px}
+h3{margin-top:24px}
+.carte{display:block;width:100%;text-align:left;background:#fff;border:1px solid #d5dbe8;border-radius:12px;padding:16px;margin:10px 0;font-size:17px;color:#1c2333}
+.carte.off{opacity:.5}
+.carte small{display:block;font-size:13px;margin-top:4px}
+.retour{background:none;border:none;color:#1d3a8a;font-size:16px;padding:6px 0;margin-bottom:6px}
+.cours{background:#fff;border-left:5px solid #1d3a8a;border-radius:8px;padding:12px 16px;line-height:1.5}
+.q{background:#fff;border-radius:12px;padding:14px;margin:12px 0}
+.opt{display:block;width:100%;text-align:left;background:#eef1f8;border:1px solid #d5dbe8;border-radius:8px;padding:12px;margin:6px 0;font-size:16px;color:#1c2333}
+.opt.bon{background:#c9f0d4;border-color:#2e9e57}
+.opt.mauvais{background:#f7c9c9;border-color:#c53b3b}
+.exp{font-size:15px;color:#333;margin:8px 0 0}
+.score{font-size:18px;font-weight:bold;text-align:center;margin:20px 0}
+</style>
+</head>
+<body>
+<header>
+<h1>Lumina</h1>
+<p>Révisions BEPC · Classe de Troisième</p>
+</header>
+<main id="app"></main>
+<script>
+const matieres=[
+ {n:'Mathématiques',ok:true},
+ {n:'Français'},
+ {n:'Anglais'},
+ {n:'PCT / SVT'}
+];
+
+const chapitres=[
+ {
+  t:'Théorème de Pythagore',
+  cours:`<p><b>Théorème :</b> dans un triangle rectangle, le carré de l'hypoténuse est égal à la somme des carrés des deux autres côtés.</p>
+  <p>Si ABC est rectangle en A : <b>BC² = AB² + AC²</b></p>
+  <p>L'hypoténuse est le côté opposé à l'angle droit (le plus long).</p>
+  <p><b>Réciproque :</b> si BC² = AB² + AC², alors ABC est rectangle en A.</p>
+  <p><b>Exemple :</b> AB = 3 et AC = 4. BC² = 9 + 16 = 25, donc BC = 5.</p>`,
+  quiz:[
+   {q:'ABC est rectangle en A, AB = 6 et AC = 8. Combien vaut BC ?',o:['10','14','12'],r:0,e:'BC² = 36 + 64 = 100, donc BC = 10.'},
+   {q:'Dans un triangle rectangle, l\'hypoténuse mesure 13 et un côté mesure 5. L\'autre côté mesure :',o:['8','12','18'],r:1,e:'x² = 169 − 25 = 144, donc x = 12.'},
+   {q:'Un triangle a pour côtés 5, 12 et 13. Est-il rectangle ?',o:['Oui','Non'],r:0,e:'13² = 169 et 5² + 12² = 25 + 144 = 169. D\'après la réciproque, il est rectangle.'},
+   {q:'L\'hypoténuse est :',o:['Le plus petit côté','Le côté opposé à l\'angle droit','Un côté de l\'angle droit'],r:1,e:'C\'est le côté opposé à l\'angle droit, et le plus long.'}
+  ]
+ },
+ {
+  t:'Équations et inéquations',
+  cours:`<p><b>Équation :</b> pour résoudre ax + b = c, on isole x.</p>
+  <p><b>Exemple :</b> 2x + 3 = 11 → 2x = 8 → x = 4.</p>
+  <p><b>Inéquation :</b> même méthode, mais <b>on change le sens de l'inégalité quand on multiplie ou divise par un nombre négatif</b>.</p>
+  <p><b>Exemple :</b> −2x + 1 &gt; 7 → −2x &gt; 6 → x &lt; −3.</p>`,
+  quiz:[
+   {q:'Résous : 3x − 5 = 10',o:['x = 5','x = 3','x = 15'],r:0,e:'3x = 15, donc x = 5.'},
+   {q:'Résous : 2x + 7 = 1',o:['x = 3','x = −3','x = −4'],r:1,e:'2x = −6, donc x = −3.'},
+   {q:'Résous : x + 4 &lt; 9',o:['x &lt; 13','x &lt; 5','x &gt; 5'],r:1,e:'x &lt; 9 − 4, donc x &lt; 5.'},
+   {q:'Résous : −3x ≥ 12',o:['x ≥ −4','x ≤ −4','x ≤ 4'],r:1,e:'On divise par −3, donc le sens change : x ≤ −4.'},
+   {q:'Résous : 5x − 2 = 3x + 6',o:['x = 4','x = 2','x = 8'],r:0,e:'2x = 8, donc x = 4.'}
+  ]
+ },
+ {
+  t:'Théorème de Thalès',
+  cours:`<p><b>Situation :</b> les droites (MN) et (BC) sont parallèles. Les points A, M, B sont alignés, et A, N, C aussi.</p>
+  <p><b>Alors :</b> AM/AB = AN/AC = MN/BC</p>
+  <p><b>Astuce :</b> chaque rapport compare le petit triangle (AMN) au grand triangle (ABC).</p>
+  <p><b>Exemple :</b> AM = 2, AB = 6, AN = 3. On écrit 3/AC = 2/6, donc AC = 3 × 6 ÷ 2 = 9.</p>
+  <p><b>Réciproque :</b> si AM/AB = AN/AC (points dans le même ordre), alors (MN) est parallèle à (BC).</p>
+  <p><b>Erreur fréquente :</b> utiliser Thalès sans être sûr que les droites sont parallèles.</p>`,
+  quiz:[
+   {q:'(MN) // (BC), AM = 2, AB = 6, AN = 3. Combien vaut AC ?',o:['9','1','4'],r:0,e:'AN/AC = AM/AB, donc 3/AC = 2/6 et AC = 9.'},
+   {q:'(MN) // (BC), AM = 4, AB = 10, BC = 15. Combien vaut MN ?',o:['6','37,5','9'],r:0,e:'MN/BC = AM/AB, donc MN = 15 × 4 ÷ 10 = 6.'},
+   {q:'Que faut-il avoir avant d\'utiliser Thalès ?',o:['Un triangle rectangle','Deux droites parallèles','Deux côtés égaux'],r:1,e:'Thalès s\'utilise quand deux droites sont parallèles.'},
+   {q:'AM = 3, AB = 6, AN = 4, AC = 8. (MN) et (BC) sont-elles parallèles ?',o:['Oui','Non'],r:0,e:'3/6 = 1/2 et 4/8 = 1/2. Les rapports sont égaux, donc d\'après la réciproque, elles sont parallèles.'}
+  ]
+ }
+];
+
+const app=document.getElementById('app');
+let score=0,rep=0;
+
+function accueil(){
+ app.innerHTML='<h2>Choisis une matière</h2>'+matieres.map(m=>m.ok
+  ?`<button class="carte" onclick="maths()">${m.n}</button>`
+  :`<div class="carte off">${m.n}<small>Bientôt disponible</small></div>`).join('');
+}
+
+function maths(){
+ app.innerHTML='<button class="retour" onclick="accueil()">← Retour</button><h2>Mathématiques · Troisième</h2>'
+ +chapitres.map((c,i)=>`<button class="carte" onclick="chapitre(${i})">${c.t}</button>`).join('');
+}
+
+function chapitre(i){
+ const c=chapitres[i];
+ score=0;rep=0;
+ app.innerHTML=`<button class="retour" onclick="maths()">← Retour</button><h2>${c.t}</h2><div class="cours">${c.cours}</div><h3>Exercices</h3>`
+ +c.quiz.map((q,j)=>`<div class="q"><p><b>${j+1}.</b> ${q.q}</p>`
+ +q.o.map((o,k)=>`<button class="opt" onclick="choisir(${i},${j},${k},this)">${o}</button>`).join('')
+ +`<p class="exp" id="e${j}"></p></div>`).join('')
+ +'<p class="score" id="score"></p>';
+}
+
+function choisir(i,j,k,b){
+ const q=chapitres[i].quiz[j];
+ const bloc=b.parentNode;
+ if(bloc.dataset.fait)return;
+ bloc.dataset.fait=1;
+ bloc.querySelectorAll('.opt').forEach((x,n)=>{x.disabled=true;if(n===q.r)x.classList.add('bon');});
+ if(k!==q.r){b.classList.add('mauvais');}else{score++;}
+ rep++;
+ document.getElementById('e'+j).innerHTML=q.e;
+ if(rep===chapitres[i].quiz.length){
+  document.getElementById('score').textContent='Ton score : '+score+' / '+rep;
+ }
+}
+
+accueil();
+</script>
+</body>
+</html>
