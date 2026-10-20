@@ -146,3 +146,15 @@ accueil();
 </script>
 </body>
 </html>
+
+<script>
+if (!document.querySelector('link[rel="manifest"]')) {
+  var l = document.createElement('link');
+  l.rel = 'manifest';
+  l.href = 'manifest.json';
+  document.head.appendChild(l);
+}
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
