@@ -1,13 +1,38 @@
-self.addEventListener('install', function (e) {
+const CACHE = 'lumina-v1';
+const FICHIERS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon.svg'
+];
+
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE).then((c) => c.addAll(FICHIERS))
+  );
   self.skipWaiting();
 });
-self.addEventListener('activate', function (e) {
-  e.waitUntil(self.clients.claim());
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((noms) =>
+      Promise.all(
+        noms.filter((n) => n !== CACHE).map((n) => caches.delete(n))
+      )
+    )
+  );
+  self.clients.claim();
 });
-self.addEventListener('fetch', function (e) {
+
+self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET') return;
   e.respondWith(
-    fetch(e.request).catch(function () {
-      return caches.match(e.request);
-    })
+    fetch(e.request)
+      .then((rep) => {
+        const copie = rep.clone();
+        caches.open(CACHE).then((c) => c.put(e.request, copie));
+        return rep;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
